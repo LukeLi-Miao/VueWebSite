@@ -8,11 +8,34 @@ import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 import viteCompression from "vite-plugin-compression";
 import mkcert from 'vite-plugin-mkcert';
+import fs from 'fs';
+//implementation copied from the ssl cert plugin
+function certPlugin(keyPath, certPath) {
+  return {
+    name: "vite:cert-plugin",
+    async config(config) {
+      const https = () => ({
+        https: {
+          key: keyPath,
+          cert: certPath,
+        },
+      });
+      return {
+        server: https(),
+      };
+    },
+  };
+}
+
+const certPath = "cert/liyunfan_org.pem";
+const keyPath = "cert/server.key";
+
 // https://vitejs.dev/config/
 export default ({ mode }) =>
   defineConfig({
     plugins: [
-      mkcert(),
+      // mkcert(),
+      certPlugin(keyPath, certPath),
       vue(),
       AutoImport({
         imports: ["vue"],
@@ -93,7 +116,10 @@ export default ({ mode }) =>
       viteCompression(),
     ],
     server: {
-      https: true,
+      https: {
+        key: keyPath,
+        cert: certPath,
+      },
       port: "3000",
       open: true,
     },
