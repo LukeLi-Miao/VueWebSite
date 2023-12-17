@@ -7,11 +7,12 @@ import vue from "@vitejs/plugin-vue";
 import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 import viteCompression from "vite-plugin-compression";
-
+import mkcert from 'vite-plugin-mkcert';
 // https://vitejs.dev/config/
 export default ({ mode }) =>
   defineConfig({
     plugins: [
+      mkcert(),
       vue(),
       AutoImport({
         imports: ["vue"],
@@ -92,6 +93,7 @@ export default ({ mode }) =>
       viteCompression(),
     ],
     server: {
+      https: true,
       port: "3000",
       open: true,
     },
