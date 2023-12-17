@@ -147,4 +147,8 @@ export default ({ mode }) =>
         },
       },
     },
+    https: {
+      key: fs.readFileSync('./cert/server.key'),
+      cert: fs.readFileSync('./cert/liyunfan_org.pem')
+    },
   });
